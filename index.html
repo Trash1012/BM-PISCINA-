@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B&M Piscinas | Calidad que fluye en cada proyecto.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --aqua: #00f5ff;
+            --deep-ocean: #002b49;
+            --glass: rgba(255, 255, 255, 0.03);
+            --text-light: #f0faff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #2f4a56;
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* Forzar que todo el texto sea blanco */
+        body, body * {
+            color: #ffffff !important;
+        }
+
+        /* Placeholders en blanco por defecto */
+        ::placeholder { color: #ffffff !important; opacity: 1; }
+
+        /* HERO */
+        .hero {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            filter: brightness(1.15) saturate(1.2) contrast(1.05);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(rgba(0,18,26,0.15), rgba(0,18,26,0.55));
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-family: 'Syncopate', sans-serif;
+            font-size: clamp(4rem, 10vw, 7rem);
+            color: var(--aqua);
+            margin-bottom: 20px;
+            line-height: 0.95;
+            letter-spacing: 3px;
+            font-weight: 700;
+        }
+
+        .hero-content p {
+            color: var(--aqua);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: clamp(1.2rem, 2.4vw, 1.9rem);
+            font-weight: 500;
+        }
+
+        .hero-content .btn-container {
+            margin-top: 28px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* BOTÓN GENERAL */
+        .btn-outline {
+            border: 1px solid var(--aqua);
+            color: var(--aqua);
+            padding: 12px 28px;
+            border-radius: 40px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .btn-outline:hover {
+            background: var(--aqua);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 245, 255, 0.3);
+        }
+
+        .btn-outline:hover * {
+            color: #00121a !important;
+        }
+
+        /* 🟢 BOTÓN FLOTANTE DE WHATSAPP */
+        .whatsapp-floating {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 64px;
+            height: 64px;
+            background-color: #25D366;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .whatsapp-floating:hover {
+            transform: scale(1.1);
+            background-color: #20ba5a;
+        }
+
+        .whatsapp-floating svg {
+            width: 34px;
+            height: 34px;
+            fill: #ffffff;
+        }
+
+        /* 🔴 GLOBO DE NOTIFICACIÓN ROJO */
+        .whatsapp-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background-color: #ff3b30;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 11px;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* SERVICIOS Y DIAPOSITIVAS */
+        .services {
+            padding: 100px 5%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .service-card {
+            height: 450px;
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(0,245,255,0.2);
+            transition: 0.4s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+
+        /* Contenedor del carrusel interno */
+        .slides-container {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* Estilo para cada imagen del carrusel */
+        .slide-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        /* Clase activa para mostrar la imagen actual */
+        .slide-img.active {
+            opacity: 1;
+        }
+
+        .card-overlay {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 30px;
+            background: linear-gradient(
+                to top,
+                rgba(0,18,26,0.95),
+                transparent
+            );
+            z-index: 1;
+        }
+
+        .card-overlay h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        /* CONTACTO */
+        .contact-section {
+            padding: 80px 5%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .contact-container {
+            width: 100%;
+            max-width: 900px;
+            background: #ffffff;
+            color: #072632;
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(2,8,23,0.06);
+            box-shadow: 0 10px 40px rgba(2,8,23,0.08);
+            min-height: 300px;
+            height: auto;
+        }
+
+        #hubspot-form-target {
+            width: 100%;
+            min-height: 500px;
+        }
+
+        #hubspot-form-target input,
+        #hubspot-form-target textarea,
+        #hubspot-form-target select {
+            background: #fbfeff;
+            border: 1px solid rgba(2,8,23,0.08);
+            color: #072632;
+            padding: 12px;
+            border-radius: 10px;
+            outline: none;
+            width: 100%;
+        }
+
+        #hubspot-form-target input:focus,
+        #hubspot-form-target textarea:focus,
+        #hubspot-form-target select:focus {
+            border-color: var(--aqua);
+            box-shadow: 0 0 10px rgba(0,245,255,0.3);
+        }
+
+        /* FOOTER OPTIMIZADO */
+        footer {
+            padding: 60px 5% 40px 5%;
+            background: rgba(0, 18, 26, 0.4);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 35px;
+        }
+
+        .footer-nav a {
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .footer-nav a:hover {
+            color: var(--aqua) !important;
+        }
+
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .footer-social a {
+            color: var(--aqua);
+            transition: 0.3s;
+        }
+
+        .footer-social a:hover {
+            color: white;
+            transform: translateY(-4px);
+        }
+
+        .footer-social svg {
+            width: 33px;
+            height: 33px;
+            display: block;
+        }
+
+        .footer-copy {
+            font-size: 0.85rem;
+            opacity: 0.6;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        @media(max-width:768px) {
+            .footer-nav {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            .whatsapp-floating {
+                bottom: 20px;
+                right: 20px;
+                width: 56px;
+                height: 56px;
+            }
+            .whatsapp-floating svg {
+                width: 28px;
+                height: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 🟢 ICONO FLOTANTE DE WHATSAPP -->
+    <a href="https://wa.me/50765839063" target="_blank" class="whatsapp-floating" aria-label="Chat de WhatsApp">
+        <svg viewBox="0 0 24 24">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.965C16.528 1.977 14.06 1.053 11.43 1.053c-5.413 0-9.819 4.358-9.822 9.792a9.682 9.682 0 001.531 5.142l-1.01 3.687 3.779-.972zm11.758-6.19c-.312-.154-1.847-.901-2.131-1.003-.283-.103-.49-.155-.696.154-.205.308-.797 1.003-.977 1.208-.18.205-.361.228-.673.074-1.31-.65-2.23-1.121-3.111-2.632-.23-.393.23-.364.659-1.214.072-.153.036-.288-.018-.393-.054-.103-.49-1.168-.672-1.604-.177-.425-.357-.367-.49-.374-.125-.006-.269-.007-.413-.007-.144 0-.379.054-.577.269-.198.215-.756.732-.756 1.784 0 1.052.774 2.07.882 2.216.108.146 1.522 2.3 3.686 3.221.515.22 1.157.35 1.554.423.535.1 1.022.076 1.408.019.43-.064 1.4-.564 1.597-1.107.197-.544.197-1.01.139-1.107-.057-.1-.213-.154-.526-.308z"/>
+        </svg>
+        <span class="whatsapp-badge">1</span>
+    </a>
+
+    <!-- HERO -->
+    <header class="hero" id="hero-section">
+        <video class="hero-video-bg" id="hero-video" muted loop playsinline preload="auto"></video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>B&M PISCINAS</h1>
+            <p>Calidad que fluye en cada proyecto</p>
+            <div class="btn-container">
+                <a href="#servicios" class="btn-outline">Sumergirse</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- SERVICIOS -->
+    <section id="servicios" class="services">
+        
+        <!-- Tarjeta Creación -->
+        <div class="service-card" data-carousel>
+            <div class="slides-container">
+                <!-- Mostrara imagen_2.jpg y luego cambiará a IMAGEN SEC1.png cada 4 segundos -->
+                <div class="slide-img active" style="background-image: url('imagen_2.jpg');"></div>
+                <div class="slide-img" style="background-image: url('IMAGEN SEC1.png');"></div>
+            </div>
+            <div class="card-overlay">
+                <h3>CREACIÓN</h3>
+                <a class="btn-outline">Ver Diseños</a>
+            </div>
+        </div>
+
+        <!-- Tarjeta Reparación -->
+        <div class="service-card" data-carousel>
+            <div class="slides-container">
+                <!-- Mostrará tu imagen_1.jpg de reparación fija o con las que agregues aquí -->
+                <div class="slide-img active" style="background-image: url('imagen_1.jpg');"></div>
+            </div>
+            <div class="card-overlay">
+                <h3>REPARACIÓN</h3>
+                <a class="btn-outline">Restaurar</a>
+            </div>
+        </div>
+
+        <!-- Tarjeta Mantenimiento -->
+        <div class="service-card" data-carousel>
+            <div class="slides-container">
+                <!-- Mostrará tu foto m.jpg de mantenimiento fija o con las que agregues aquí -->
+                <div class="slide-img active" style="background-image: url('m.jpg');"></div>
+            </div>
+            <div class="card-overlay">
+                <h3>MANTENIMIENTO</h3>
+                <a class="btn-outline">Automatizar</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="contact-section">
+        <div class="contact-container">
+            <div id="hubspot-form-target"></div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <nav class="footer-nav">
+                <a href="index2.html">Quiénes Somos</a>
+                <a href="index2.html">Misión</a>
+                <a href="index2.html">Visión</a>
+            </nav>
+
+            <div class="footer-social">
+                <a href="https://wa.me/50765839063" target="_blank" aria-label="WhatsApp">
+                    <i data-lucide="message-circle"></i>
+                </a>
+                <a href="https://www.instagram.com/azureroyalepools/" target="_blank" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                        <path d="M7.75 2C4.57 2 2 4.57 2 7.75v8.5C2 19.43 4.57 22 7.75 22h8.5C19.43 22 22 19.43 22 16.25v-8.5C22 4.57 19.43 2 16.25 2h-8.5zm0 2h8.5A3.75 3.75 0 0 1 20 7.75v8.5A3.75 3.75 0 0 1 16.25 20h-8.5A3.75 3.75 0 0 1 4 16.25v-8.5A3.75 3.75 0 0 1 7.75 4zm8.75 1a1.25 1.25 0 1 0 0 2.5A1.25 1.25 0 0 0 16.5 5zM12 7a5 5 0 1 0 0 10a5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6a3 3 0 0 1 0-6z"/>
+                    </svg>
+                </a>
+                <a href="" target="_blank" aria-label="TikTok">
+                    <svg viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.234V2h-3.193v12.138a2.9 2.9 0 1 1-2.9-2.9c.228 0 .451.027.666.076V8.077a6.09 6.09 0 0 0-.666-.035A6.093 6.093 0 1 0 15.82 14.13V7.969a7.96 7.96 0 0 0 4.68 1.513V6.686h-.911z" />
+                    </svg>
+                </a>
+            </div>
+            
+            <p class="footer-copy">B&M PISCINAS © 2026</p>
+        </div>
+    </footer>
+
+    <!-- HUBSPOT Y SCRIPTS -->
+    <script src="https://js.hsforms.net/forms/embed/v2.js"></script>
+    <script>
+        // Configuración de Video
+        const BANNER_VIDEO = 'video.mp4';
+        const video = document.getElementById('hero-video');
+        video.src = BANNER_VIDEO;
+        video.load();
+
+        function tryPlay() {
+            video.play().catch(() => {
+                document.addEventListener('click', () => video.play(), { once: true });
+            });
+        }
+
+        video.addEventListener('canplaythrough', tryPlay, { once: true });
+        video.addEventListener('stalled', () => {
+            const t = video.currentTime;
+            video.load();
+            video.currentTime = t;   
+            tryPlay();
+        });
+        video.addEventListener('pause', () => {
+            if (!video.ended && video.readyState >= 3) {
+                video.play().catch(() => {});
+            }
+        });
+
+        // Lógica de Carruseles Automáticos
+        const carousels = document.querySelectorAll('[data-carousel]');
+
+        carousels.forEach(carousel => {
+            const slides = carousel.querySelectorAll('.slide-img');
+            let currentSlideIndex = 0;
+
+            // Si hay 1 o 0 imágenes, se queda fija y no da error
+            if (slides.length <= 1) return;
+
+            setInterval(() => {
+                slides[currentSlideIndex].classList.remove('active');
+                currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+                slides[currentSlideIndex].classList.add('active');
+            }, 4000);
+        });
+
+        lucide.createIcons();
+
+        // Formulario HubSpot
+        hbspt.forms.create({
+            region: "na1",
+            portalId: "51471205",
+            formId: "d79e0f10-eb42-44dd-8440-1f68ec2755dd",
+            target: "#hubspot-form-target"
+        });
+    </script>
+</body>
+</html>
